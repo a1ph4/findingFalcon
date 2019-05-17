@@ -9,6 +9,7 @@ const VehicleOption = props => {
         name={props.planet.name}
         onChange={e => props.onVehicleChange(e)}
         disabled={props.planet.distance > props.vehicle.max_distance}
+        data-name={props.vehicle.name}
       />
       <label>
         {props.vehicle.name} ({props.vehicle.total_no})
