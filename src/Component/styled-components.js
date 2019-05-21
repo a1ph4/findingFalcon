@@ -79,6 +79,20 @@ const RadioBtn = styled.input.attrs(({ inputType }) => ({
     color: #ccc;
   }
 `;
+
+const SubmitButton = styled.button`
+  height: 40px;
+  background: #222;
+  padding: 0 20px;
+  line-height: 40px;
+  display: block;
+  width: auto;
+  margin: 0 auto;
+  color: #fff;
+  border: 1px solid #fff;
+  font-size: 20px;
+  cursor: pointer;
+`;
 export {
   Header,
   HeaderLinks,
@@ -88,5 +102,6 @@ export {
   PlanetOption,
   TimeContainer,
   VehicleContainer,
-  RadioBtn
+  RadioBtn,
+  SubmitButton
 };

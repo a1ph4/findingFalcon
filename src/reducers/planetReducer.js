@@ -1,8 +1,13 @@
-import { FETCH_PLANETS, SELECT_PLANETS } from "../actions/types";
+import {
+  FETCH_PLANETS,
+  SELECT_PLANETS,
+  FETCH_NON_SELECTED_PLANETS
+} from "../actions/types";
 
 const initialState = {
   allplanets: [],
-  selectedPlanet: []
+  selectedPlanet: [],
+  nonSelectedPlanets: []
 };
 
 export default function(state = initialState, action) {
@@ -11,6 +16,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         allplanets: action.data
+      };
+    case SELECT_PLANETS:
+      let selectedPlanet = [...state.selectedPlanet];
+      selectedPlanet.push(action.data);
+      return {
+        ...state,
+        selectedPlanet: selectedPlanet
       };
     default:
       return state;

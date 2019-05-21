@@ -8,3 +8,9 @@ export const fetchPlanets = () => dispatch => {
     });
   });
 };
+export const selectPlanets = planet => dispatch => {
+  dispatch({
+    type: SELECT_PLANETS,
+    data: planet
+  });
+};

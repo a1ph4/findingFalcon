@@ -9,3 +9,9 @@ export const fetchVehicles = () => dispatch => {
     });
   });
 };
+export const selectVehicle = vehicle => dispatch => {
+  dispatch({
+    type: SELECT_VEHICLES,
+    data: vehicle
+  });
+};

@@ -8,10 +8,17 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case FETCH_VEHICLES:
-      console.log(action.data);
       return {
         ...state,
         allvehicles: action.data
+      };
+    case SELECT_VEHICLES:
+      let selectedVehicles = [...state.selectedVehicles];
+      selectedVehicles.push(action.data);
+      console.log(selectedVehicles, state.selectedVehicles);
+      return {
+        ...state,
+        selectedVehicles
       };
     default:
       return state;
