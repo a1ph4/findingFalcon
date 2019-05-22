@@ -14,3 +14,8 @@ export const selectPlanets = planet => dispatch => {
     data: planet
   });
 };
+export const fetchSelectedPlanets = () => dispatch => {
+  dispatch({
+    type: "DEFAULT"
+  });
+};

@@ -1,8 +1,13 @@
-import { FETCH_VEHICLES, SELECT_VEHICLES } from "../actions/types";
+import {
+  FETCH_VEHICLES,
+  SELECT_VEHICLES,
+  SELECTED_VEHICLES
+} from "../actions/types";
 
 const initialState = {
   allvehicles: [],
-  selectedVehicles: []
+  selectedVehicles: [],
+  selectedVehiclesList: []
 };
 
 export default function(state = initialState, action) {
@@ -14,13 +19,37 @@ export default function(state = initialState, action) {
       };
     case SELECT_VEHICLES:
       let selectedVehicles = [...state.selectedVehicles];
-      selectedVehicles.push(action.data);
-      console.log(selectedVehicles, state.selectedVehicles);
+      let selectedVehiclesList = [];
+      let done = false;
+      selectedVehicles.forEach(el => {
+        if (el[action.planet]) {
+          el[action.planet] = action.data;
+          done = true;
+          return;
+        }
+      });
+      if (selectedVehicles.length === 0 || !done) {
+        let newVehicle = {};
+        newVehicle[action.planet] = action.data;
+        selectedVehicles.push(newVehicle);
+      }
+      selectedVehicles.forEach(el => {
+        Object.entries(el).forEach(([key, val]) => {
+          selectedVehiclesList.push(val);
+        });
+      });
       return {
         ...state,
-        selectedVehicles
+        selectedVehicles,
+        selectedVehiclesList
+      };
+    case SELECTED_VEHICLES:
+      let finalselectedVehicles = [...state.selectedVehicles];
+      return {
+        ...state,
+        finalselectedVehicles
       };
     default:
-      return state;
+      return { ...state };
   }
 }

@@ -6,12 +6,14 @@ import { connect } from "react-redux";
 import { subscribe } from "redux-subscriber";
 import { fetchPlanets, selectPlanets } from "../actions/planetActions";
 import { fetchVehicles, selectVehicle } from "../actions/vehiclesActions";
+import { updateTime } from "../actions/timeActions";
 
 class PlanetSelector extends Component {
   constructor(props) {
     super(props);
     this.state = {
       planets: [],
+      vehicles: [],
       selectedPlanet: [],
       selectedVehicle: "",
       showVehicles: false
@@ -22,6 +24,7 @@ class PlanetSelector extends Component {
   }
   componentWillMount() {
     this.props.fetchPlanets();
+    this.props.fetchVehicles();
     subscribe("planets.allplanets", state => {
       this.setState({ planets: state.planets.allplanets });
     });
@@ -29,7 +32,30 @@ class PlanetSelector extends Component {
       let planets = this.state.planets.filter(planet => {
         return state.planets.selectedPlanet.indexOf(planet.name) === -1;
       });
-      this.updateState(planets);
+      if (!this.selected) {
+        this.setState({ planets: planets });
+      }
+    });
+    subscribe("vehicles.allvehicles", state => {
+      this.setState({ vehicles: state.vehicles.allvehicles });
+    });
+    subscribe("vehicles.selectedVehicles", state => {
+      var vehiclecounts = {};
+      state.vehicles.selectedVehiclesList.forEach(vehicle => {
+        vehiclecounts[vehicle] = (vehiclecounts[vehicle] || 0) + 1;
+      });
+      let vehicles = this.state.vehicles.map(vehicle => {
+        let newVehicle = {
+          name: vehicle.name,
+          speed: vehicle.speed,
+          max_distance: vehicle.max_distance,
+          total_no: vehicle.total_no - (vehiclecounts[vehicle.name] || 0)
+        };
+        return newVehicle;
+      });
+      if (!this.selected) {
+        this.setState({ vehicles: vehicles });
+      }
     });
   }
   selectPlanet(e) {
@@ -43,24 +69,20 @@ class PlanetSelector extends Component {
       return planet.name === current;
     });
     this.setState({ selectedPlanet: selectedPlanet[0] });
-    this.props.fetchVehicles();
     this.selected = true;
     this.setState({ showVehicles: true });
     this.props.selectPlanets(selectedPlanet[0].name);
   }
   selectVehicle(e) {
-    let vehicle =
+    let vehicleName =
       e.target.value === "on" ? e.target.getAttribute("data-name") : null;
-    this.setState({
-      selectedVehicle:
-        e.target.value === "on" ? e.target.getAttribute("data-name") : null
+    let vehicle = this.state.vehicles.filter(vehicle => {
+      return vehicle.name === vehicleName;
     });
-    this.props.selectVehicle(vehicle);
-  }
-  updateState(planets) {
-    if (!this.selected) {
-      this.setState({ planets: planets });
-    }
+    this.setState({ selectedVehicle: vehicle });
+    let time = this.state.selectedPlanet.distance / vehicle[0].speed;
+    this.props.updateTime(time);
+    this.props.selectVehicle(this.state.selectedPlanet.name, vehicleName);
   }
   render() {
     let options;
@@ -75,7 +97,7 @@ class PlanetSelector extends Component {
           <option key="Select Planet">Select Planet</option>
           {options}
         </PlanetOption>
-        {this.props.vehicles.map(vehicle => {
+        {this.state.vehicles.map(vehicle => {
           return (
             <VehicleOption
               key={vehicle.name}
@@ -95,7 +117,8 @@ PlanetSelector.propTypes = {
   selectPlanets: PropTypes.func.isRequired,
   selectVehicle: PropTypes.func.isRequired,
   fetchVehicles: PropTypes.func.isRequired,
-  vehicles: PropTypes.array.isRequired
+  vehicles: PropTypes.array.isRequired,
+  updateTime: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   vehicles: state.vehicles.allvehicles
@@ -106,6 +129,7 @@ export default connect(
     fetchPlanets,
     fetchVehicles,
     selectPlanets,
-    selectVehicle
+    selectVehicle,
+    updateTime
   }
 )(PlanetSelector);

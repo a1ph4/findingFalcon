@@ -5,3 +5,9 @@ export const getTime = () => dispatch => {
     data: 0
   });
 };
+export const updateTime = data => dispatch => {
+  dispatch({
+    type: UPDATE_TIME,
+    data: data
+  });
+};

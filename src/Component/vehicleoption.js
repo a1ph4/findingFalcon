@@ -8,11 +8,15 @@ const VehicleOption = props => {
         inputType="radio"
         name={props.planet.name}
         onChange={e => props.onVehicleChange(e)}
-        disabled={props.planet.distance > props.vehicle.max_distance}
+        disabled={
+          props.planet.distance > props.vehicle.max_distance ||
+          props.vehicle.total_no < 1
+        }
         data-name={props.vehicle.name}
       />
       <label>
-        {props.vehicle.name} ({props.vehicle.total_no})
+        {props.vehicle.name} (
+        {props.vehicle.total_no < 1 ? 0 : props.vehicle.total_no})
       </label>
     </VehicleContainer>
   );

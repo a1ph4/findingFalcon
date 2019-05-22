@@ -11,6 +11,12 @@ export default function(state = initialState, action) {
         ...state,
         time: action.data
       };
+    case UPDATE_TIME:
+      let currentTime = state.time;
+      return {
+        ...state,
+        time: currentTime + action.data
+      };
     default:
       return state;
   }

@@ -22,9 +22,7 @@ const HeaderLinks = styled.div`
   > a {
     color: #fff;
     text-decoration: none;
-    &:hover {
-      color: blue;
-    }
+    margin: 0 10px;
   }
 `;
 const Container = styled.div`
@@ -80,17 +78,19 @@ const RadioBtn = styled.input.attrs(({ inputType }) => ({
   }
 `;
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.a`
   height: 40px;
   background: #222;
   padding: 0 20px;
   line-height: 40px;
   display: block;
-  width: auto;
+  width: 150px;
   margin: 0 auto;
   color: #fff;
   border: 1px solid #fff;
   font-size: 20px;
+  text-align: center;
+  text-decoration: none;
   cursor: pointer;
 `;
 export {

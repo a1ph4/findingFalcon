@@ -1,42 +1,37 @@
 import React, { Component } from "react";
-import {
-  Header,
-  HeaderLinks,
-  FlexWrapper,
-  PlanetWrapper,
-  Container
-} from "./Component/styled-components";
-import PlanetSelector from "./Component/planetselector";
-import TotalTime from "./Component/totaltime";
+import { Header, HeaderLinks } from "./Component/styled-components";
+import Home from "./Component/home";
+import Result from "./Component/result";
 import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import store from "./store";
 class App extends Component {
+  finalResult(result) {
+    console.log(result);
+  }
   render() {
     return (
-      <Provider store={store}>
-        <div>
-          <Header>
-            <h3>Finding Falcon</h3>
-            <HeaderLinks>
-              <a href="/">Home</a>
-            </HeaderLinks>
-          </Header>
-          <Container height="300px">
-            <FlexWrapper>
-              {[1, 2, 3, 4].map(i => {
-                return (
-                  <PlanetWrapper key={i}>
-                    <PlanetSelector />
-                  </PlanetWrapper>
-                );
-              })}
-            </FlexWrapper>
-          </Container>
-          <Container>
-            <TotalTime total={0} />
-          </Container>
-        </div>
-      </Provider>
+      <Router>
+        <Provider store={store}>
+          <div>
+            <Header>
+              <h3>Finding Falcon</h3>
+              <HeaderLinks>
+                <Link to="/">Home</Link>
+                <Link to="/result">Result</Link>
+              </HeaderLinks>
+            </Header>
+          </div>
+          <div>
+            <Route
+              exact
+              path="/"
+              render={() => <Home finalResult={this.finalResult} />}
+            />
+            <Route exact path="/result" component={Result} />
+          </div>
+        </Provider>
+      </Router>
     );
   }
 }

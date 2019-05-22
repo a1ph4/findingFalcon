@@ -1,13 +1,8 @@
-import {
-  FETCH_PLANETS,
-  SELECT_PLANETS,
-  FETCH_NON_SELECTED_PLANETS
-} from "../actions/types";
+import { FETCH_PLANETS, SELECT_PLANETS } from "../actions/types";
 
 const initialState = {
   allplanets: [],
-  selectedPlanet: [],
-  nonSelectedPlanets: []
+  selectedPlanet: []
 };
 
 export default function(state = initialState, action) {
