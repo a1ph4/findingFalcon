@@ -19,10 +19,15 @@ const HeaderLinks = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: row-reverse;
-  > a {
+  > button {
     color: #fff;
     text-decoration: none;
     margin: 0 10px;
+    background:transparent;
+    border:none;
+    font-size:18px;
+    cursor: pointer;
+    outline:none;
   }
 `;
 const Container = styled.div`
@@ -78,13 +83,12 @@ const RadioBtn = styled.input.attrs(({ inputType }) => ({
   }
 `;
 
-const SubmitButton = styled.a`
+const SubmitButton = styled.button`
   height: 40px;
   background: #222;
   padding: 0 20px;
   line-height: 40px;
   display: block;
-  width: 150px;
   margin: 0 auto;
   color: #fff;
   border: 1px solid #fff;
@@ -92,7 +96,22 @@ const SubmitButton = styled.a`
   text-align: center;
   text-decoration: none;
   cursor: pointer;
+  
+  &:disabled{
+    cursor:not-allowed;
+    background:#ccc;
+  }
 `;
+
+const ResultText = styled.h1`
+  text-align:center;
+  font-size:24px;
+`;
+
+const FlexCenter= styled.div`
+  margin:auto;
+  height:100vh;
+`
 export {
   Header,
   HeaderLinks,
@@ -103,5 +122,7 @@ export {
   TimeContainer,
   VehicleContainer,
   RadioBtn,
-  SubmitButton
+  SubmitButton,
+  ResultText,
+  FlexCenter
 };

@@ -16,7 +16,8 @@ class PlanetSelector extends Component {
       vehicles: [],
       selectedPlanet: [],
       selectedVehicle: "",
-      showVehicles: false
+      showVehicles: false,
+      subscriptions:[]
     };
     this.selected = false;
     this.selectPlanet = this.selectPlanet.bind(this);
@@ -25,10 +26,10 @@ class PlanetSelector extends Component {
   componentWillMount() {
     this.props.fetchPlanets();
     this.props.fetchVehicles();
-    subscribe("planets.allplanets", state => {
+    let allPlanetsSubs = subscribe("planets.allplanets", state => {
       this.setState({ planets: state.planets.allplanets });
     });
-    subscribe("planets.selectedPlanet", state => {
+    let selectedPlanetSubs = subscribe("planets.selectedPlanet", state => {
       let planets = this.state.planets.filter(planet => {
         return state.planets.selectedPlanet.indexOf(planet.name) === -1;
       });
@@ -36,10 +37,10 @@ class PlanetSelector extends Component {
         this.setState({ planets: planets });
       }
     });
-    subscribe("vehicles.allvehicles", state => {
+    let allVehiclesSubs = subscribe("vehicles.allvehicles", state => {
       this.setState({ vehicles: state.vehicles.allvehicles });
     });
-    subscribe("vehicles.selectedVehicles", state => {
+    let selectedVehicleSubs = subscribe("vehicles.selectedVehicles", state => {
       var vehiclecounts = {};
       state.vehicles.selectedVehiclesList.forEach(vehicle => {
         vehiclecounts[vehicle] = (vehiclecounts[vehicle] || 0) + 1;
@@ -57,6 +58,12 @@ class PlanetSelector extends Component {
         this.setState({ vehicles: vehicles });
       }
     });
+    this.setState({subscriptions: [allPlanetsSubs, selectedPlanetSubs, allVehiclesSubs, selectedVehicleSubs]})
+  }
+  componentWillUnmount(){
+    this.state.subscriptions.forEach(subs=>{
+      subs();
+    })
   }
   selectPlanet(e) {
     if (e.target.value === "Select Planet") {

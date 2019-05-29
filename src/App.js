@@ -3,35 +3,42 @@ import { Header, HeaderLinks } from "./Component/styled-components";
 import Home from "./Component/home";
 import Result from "./Component/result";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import store from "./store";
+import {store, reInit} from "./store";
 class App extends Component {
-  finalResult(result) {
-    console.log(result);
+  constructor(){
+    super()
+    this.state={
+      result:undefined
+    }
+    this.finalResult=this.finalResult.bind(this)
+    this.pageReset=this.pageReset.bind(this)
+  }
+  finalResult(result, time) {
+    this.setState({result: result, time:time});
+  }
+  pageReset(){
+    this.setState({result:undefined})
+    reInit()
   }
   render() {
+    let page;
+    if(!this.state.result){
+      page = <Home finalResult={this.finalResult}/>
+    }else{
+      page= <Result result={this.state.result} time={this.state.time}/>
+    }
     return (
-      <Router>
         <Provider store={store}>
           <div>
             <Header>
-              <h3>Finding Falcon</h3>
+              <h3>Finding Falcone</h3>
               <HeaderLinks>
-                <Link to="/">Home</Link>
-                <Link to="/result">Result</Link>
+                <button href="#" onClick={this.pageReset}>Reset</button>
               </HeaderLinks>
             </Header>
-          </div>
-          <div>
-            <Route
-              exact
-              path="/"
-              render={() => <Home finalResult={this.finalResult} />}
-            />
-            <Route exact path="/result" component={Result} />
+            {page}
           </div>
         </Provider>
-      </Router>
     );
   }
 }
