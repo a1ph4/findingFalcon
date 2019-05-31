@@ -30,7 +30,7 @@ class PlanetSelector extends Component {
       this.setState({ planets: state.planets.allplanets });
     });
     let selectedPlanetSubs = subscribe("planets.selectedPlanet", state => {
-      let planets = this.state.planets.filter(planet => {
+      let planets = state.planets.allplanets.filter(planet => {
         return state.planets.selectedPlanet.indexOf(planet.name) === -1;
       });
       if (!this.selected) {
@@ -78,7 +78,7 @@ class PlanetSelector extends Component {
     this.setState({ selectedPlanet: selectedPlanet[0] });
     this.selected = true;
     this.setState({ showVehicles: true });
-    this.props.selectPlanets(selectedPlanet[0].name);
+    this.props.selectPlanets(selectedPlanet[0].name, this.props.index);
   }
   selectVehicle(e) {
     let vehicleName =

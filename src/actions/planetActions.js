@@ -8,10 +8,11 @@ export const fetchPlanets = () => dispatch => {
     });
   });
 };
-export const selectPlanets = planet => dispatch => {
+export const selectPlanets = (planet,index) => dispatch => {
   dispatch({
     type: SELECT_PLANETS,
-    data: planet
+    data: planet,
+    index:index
   });
 };
 export const fetchSelectedPlanets = () => dispatch => {

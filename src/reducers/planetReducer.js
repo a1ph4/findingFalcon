@@ -14,7 +14,11 @@ export default function(state = initialState, action) {
       };
     case SELECT_PLANETS:
       let selectedPlanet = [...state.selectedPlanet];
-      selectedPlanet.push(action.data);
+      if(selectedPlanet.length>=action.index){
+        selectedPlanet[action.index-1] = action.data
+      }else{
+        selectedPlanet.push(action.data)
+      }
       return {
         ...state,
         selectedPlanet: selectedPlanet

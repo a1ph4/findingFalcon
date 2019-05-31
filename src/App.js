@@ -4,6 +4,7 @@ import Home from "./Component/home";
 import Result from "./Component/result";
 import { Provider } from "react-redux";
 import {store, reInit} from "./store";
+import './index.css'
 class App extends Component {
   constructor(){
     super()

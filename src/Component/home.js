@@ -12,7 +12,7 @@ class Home extends Component {
             {[1, 2, 3, 4].map(i => {
               return (
                 <PlanetWrapper key={i}>
-                  <PlanetSelector />
+                  <PlanetSelector index={i} />
                 </PlanetWrapper>
               );
             })}

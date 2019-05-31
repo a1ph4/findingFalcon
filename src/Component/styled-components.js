@@ -31,19 +31,22 @@ const HeaderLinks = styled.div`
   }
 `;
 const Container = styled.div`
-  width: 992px;
-  padding: 15px;
+  max-width: 1000px;
   margin: 40px auto 0;
+  width:100vw;
   min-height: ${props => props.height || "0"};
 `;
 
 const FlexWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
   flex-direction: ${props => (props.column ? "column" : "row")};
 `;
 
 const PlanetWrapper = styled.div`
-  width: calc(25% - 10px);
+  width: calc(25% - 25px);
+  min-width:200px;
+  margin:0 auto;
   padding: 10px;
 `;
 const PlanetOption = styled.select.attrs(({ currentValue }) => ({
